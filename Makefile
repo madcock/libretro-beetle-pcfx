@@ -239,6 +239,23 @@ else ifeq ($(platform), vita)
    FLAGS += -DVITA
    STATIC_LINKING = 1
 
+# SF2000
+else ifeq ($(platform), sf2000)
+    TARGET := $(TARGET_NAME)_libretro_$(platform).a
+    MIPS=/opt/mips32-mti-elf/2019.09-03-2/bin/mips-mti-elf-
+    CC = $(MIPS)gcc
+    CXX = $(MIPS)g++
+    AR = $(MIPS)ar
+    CFLAGS =-EL -march=mips32 -mtune=mips32 -msoft-float -fomit-frame-pointer
+#	-ffast-math
+    CFLAGS+=-G0 -mno-abicalls -fno-pic
+#	-ffreestanding
+    CFLAGS+=-DSF2000
+    CXXFLAGS=$(CFLAGS)
+    STATIC_LINKING = 1
+    HAVE_THREADS = 0
+    NEED_BPP = 16
+	
 # Xbox 360
 else ifeq ($(platform), xenon)
    TARGET := $(TARGET_NAME)_libretro_xenon360.a
